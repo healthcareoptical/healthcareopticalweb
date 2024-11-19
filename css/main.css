@@ -1330,6 +1330,11 @@ h1, h2, h3 {
     border-radius: 5px;
 }
 
+.caseList .tab #myTab {
+    display: flex; 
+    justify-content: center;
+}
+
 .caseList .tab #myTab li.active{
     background:#498c7d;
 }
@@ -1341,6 +1346,38 @@ h1, h2, h3 {
 .caseList .tab ul  a{
     display: block;
     color: #498c7d;
+}
+
+#myTabContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px; 
+}
+
+#myTabMenuList{
+    flex: 1;
+}
+
+
+#myTabMenuList li{
+    display: block;
+}
+
+#myTabMenuList li.active{
+    background:#498c7d;
+}
+
+#myTabMenuList li.active a{
+    color:#fff;
+}
+
+#myTabMenuList ul  a{
+    display: block;
+    color: #498c7d;
+}
+
+#myTabContent {
+    flex: 3;
 }
 
 .caseList .tab a:hover, .caseList .tab a:focus {
@@ -1421,3 +1458,15 @@ h1, h2, h3 {
     border-radius: 4px;
 }
 
+.topRightDropdown {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+}
+
+.selectSortBy {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

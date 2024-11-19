@@ -6,5 +6,15 @@
     "contactUs":"聯絡我們",
     "login":"登入",
     "storeNameZh":"保健視力",
-    "storeNameEn":"Health Care Optical"
+    "storeNameEn":"Health Care Optical",
+    "all":"全部",
+    "modelNo":"型號 : ",
+    "productName":"產品名稱 : ",
+    "price":"價格 : ",
+    "releaseDate":"推出日期 : ",
+    "productDescription":"產品介紹",
+    "sortDateAsc":"由最新至最舊",
+    "sortDateDesc":"由最舊至最新",
+    "sortPriceAsc":"由價錢最低至最高",
+    "sortPriceDesc":"由價錢最高至最低"
 }

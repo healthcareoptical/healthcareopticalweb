@@ -3,26 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width,inital-scarel=1" name="viewport"/>
-    <title>Health Care Optical</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/media.css"/>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/animate.css"/>
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css"/>
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css"/>
-    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/scrolltopcontrol.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/wow.min.js"></script>
-    <script type="text/javascript" src="js/generateContent.js"></script>
-    <script type="text/javascript">
-        new WOW().init();
-    </script>
 </head>
-
 <body>
-    <!----banner---->
     <div id="banner">
         <div id="myCarousel" class="carousel slide">
             <ol class="carousel-indicators">
@@ -51,7 +33,6 @@
             </a>
         </div>
     </div>
-    <!----service---->
     <div id="service">
         <div class="container-fluid">
             <div class="row">
@@ -66,78 +47,5 @@
             </div>
         </div>
     </div>
-<script type="text/javascript">
-    //case
-    (function ($) {
-        $.fn.extend({
-            show: function (div) {
-                var w = this.width(),
-                    h = this.height(),
-                    xpos = w / 2,
-                    ypos = h / 2,
-                    eventType = "",
-                    direct = "";
-                this.css({"overflow": "hidden", "position": "relative"});
-                div.css({"position": "absolute", "top": this.width()});
-                this.on("mouseenter mouseleave", function (e) {
-                    var oe = e || event;
-                    var x = oe.offsetX;
-                    var y = oe.offsetY;
-                    var angle = Math.atan((x - xpos) / (y - ypos)) * 180 / Math.PI;
-                    if (angle > -45 && angle < 45 && y > ypos) {
-                        direct = "down";
-                    }
-                    if (angle > -45 && angle < 45 && y < ypos) {
-                        direct = "up";
-                    }
-                    if (((angle > -90 && angle < -45) || (angle > 45 && angle < 90)) && x > xpos) {
-                        direct = "right";
-                    }
-                    if (((angle > -90 && angle < -45) || (angle > 45 && angle < 90)) && x < xpos) {
-                        direct = "left";
-                    }
-                    move(e.type, direct)
-                });
-
-                function move(eventType, direct) {
-                    if (eventType == "mouseenter") {
-                        switch (direct) {
-                            case "down":
-                                div.css({"left": "0px", "top": h}).stop(true, true).animate({"top": "0px"}, "fast");
-                                break;
-                            case "up":
-                                div.css({"left": "0px", "top": -h}).stop(true, true).animate({"top": "0px"}, "fast");
-                                break;
-                            case "right":
-                                div.css({"left": w, "top": "0px"}).stop(true, true).animate({"left": "0px"}, "fast");
-                                break;
-                            case "left":
-                                div.css({"left": -w, "top": "0px"}).stop(true, true).animate({"left": "0px"}, "fast");
-                                break;
-                        }
-                    } else {
-                        switch (direct) {
-                            case "down":
-                                div.stop(true, true).animate({"top": h}, "fast");
-                                break;
-                            case "up":
-                                div.stop(true, true).animate({"top": -h}, "fast");
-                                break;
-                            case "right":
-                                div.stop(true, true).animate({"left": w}, "fast");
-                                break;
-                            case "left":
-                                div.stop(true, true).animate({"left": -w}, "fast");
-                                break;
-                        }
-                    }
-                }
-            }
-        });
-    })(jQuery)
-    $(".case-item").each(function (i) {
-        $(this).show($(".case-hover").eq(i));
-    });
-</script>
 </body>
 </html>
