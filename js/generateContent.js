@@ -11,7 +11,7 @@ const LOGIN_URL = '';
 
 async function getContent() {
     try {
-        const url = localStorage.getItem('lang') === 'zh' ? ZH_URL : EN_URL;
+        const url = localStorage.getItem('htclang') === 'zh' ? ZH_URL : EN_URL;
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -67,11 +67,21 @@ async function switchPage(page, firstLoad=false ) {
 }
 
 function generateValueFromApi(){
-    const getAttribute = localStorage.getItem('lang') === 'zh' ? ZH_ATTR : EN_ATTR;
+    const getAttribute = localStorage.getItem('htclang') === 'zh' ? ZH_ATTR : EN_ATTR;
     const allElements = document.querySelectorAll('[data-from-api]');
     for (let i = 0; i < allElements.length; i++) {
         const value = allElements[i].getAttribute(getAttribute);
         allElements[i].innerText = value;
     }
+}
+
+function switchLang(){
+    if (localStorage.getItem('htclang')) {
+        localStorage.removeItem('htclang');
+    } else {
+        localStorage.setItem('htclang','zh');
+    }   
+    getContent();
+    generateValueFromApi();
 }
 
