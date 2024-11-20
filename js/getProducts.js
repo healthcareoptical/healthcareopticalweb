@@ -7,7 +7,8 @@ let allEn;
 async function getMenuData() {
     try {
         const response = await fetch(BASE_PATH +'menu', {
-            method: 'GET'
+              method: "GET",
+              redirect: "follow"
         }); 
         if (!response.ok) {
             const errorDetails = await response.json().catch(() => ({
@@ -367,7 +368,8 @@ function generateProductDetail(productTab) {
 async function getProductData() {
     try {
         const response = await fetch(BASE_PATH +'product', { 
-            method : 'GET'
+            method: "GET",
+            redirect: "follow"
         }); 
         if (!response.ok) {
             const errorDetails = await response.json().catch(() => ({
