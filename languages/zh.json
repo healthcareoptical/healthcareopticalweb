@@ -14,7 +14,21 @@
     "releaseDate":"推出日期 : ",
     "productDescription":"產品介紹",
     "sortDateAsc":"由最新至最舊",
+    "ourTeam":"我們的團隊",
+    "ourStore":"我們的商店",
+    "addressLabel": "地址:",
+    "addressLine1": "UG-12號鋪，華潤大廈",
+    "addressLine2": "軒尼詩道302-308號,",
+    "addressLine3": "灣仔，香港",
+    "phoneLabel": "電話:",
+    "phoneNumber": "+852 1234 5678",
+    "emailLabel": "電子郵件:",
+    "emailAddress": "contact@healthcareoptical.com",
+    "ourLocation":"我們的位置",
+    "phraseC":"想了解更多關於我們的服務嗎？聯絡我們以了解更多信息",
     "sortDateDesc":"由最舊至最新",
     "sortPriceAsc":"由價錢最低至最高",
-    "sortPriceDesc":"由價錢最高至最低"
+    "sortPriceDesc":"由價錢最高至最低",
+    "contactMessage": "如果您有任何問題或需要更多信息，請隨時與我們聯繫。我們樂意幫助您！",
+    "aboutUsDescription": "我們成立於2017年，致力於為香港充滿活力的社區提供優質眼鏡。憑藉 40 多年的眼鏡行業經驗，我們熱情的團隊帶來豐富的專業知識，幫助您找到完美的眼鏡。我們很自豪地提供精選的本地和國際產品，包括來自當地設計師的獨特作品和來自日本的優質進口產品。"
 }

@@ -4,10 +4,10 @@ const ZH_ATTR = 'display-value-zh';
 const EN_ATTR = 'display-value-en';
 const BASE_PATH='https://healthcareoptical-dev.vercel.app/'
 const HOME_URL = './pages/home.html'
-const ABOUT_US_URL = '';
-const CONTACT_US_URL = '';
+const ABOUT_US_URL = './pages/aboutUs.html';
+const CONTACT_US_URL = './pages/contactUs.html';
 const PRODUCT_URL = './pages/productlist.html';
-const LOGIN_URL = '';
+const LOGIN_URL = './pages/login.html';
 
 async function getContent() {
     try {
