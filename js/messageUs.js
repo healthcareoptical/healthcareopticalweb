@@ -26,9 +26,12 @@ async function submitMessage(event){
             body: JSON.stringify({ subject: 'Enquiry from ' + name, message })
         });
         
-        $('#messageModal').modal('hide'); 
+        $('#messageModal').modal('hide');
         if (response.ok) {
             confirmModal.setAttribute('property-name', 'success');
+            content.value ='';
+            name.value='';
+            email.value='';
         } else {
            throw new Error(response.status);
         } 
