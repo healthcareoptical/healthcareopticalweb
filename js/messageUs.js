@@ -29,9 +29,9 @@ async function submitMessage(event){
         $('#messageModal').modal('hide');
         if (response.ok) {
             confirmModal.setAttribute('property-name', 'success');
-            content.value ='';
-            name.value='';
-            email.value='';
+            document.getElementById('message').value ='';
+            document.getElementById('name').value = '';
+            document.getElementById('email').value='';
         } else {
            throw new Error(response.status);
         } 
