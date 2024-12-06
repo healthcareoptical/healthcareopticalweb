@@ -3,11 +3,21 @@ const ZH_URL = './languages/zh.json'
 const ZH_ATTR = 'display-value-zh';
 const EN_ATTR = 'display-value-en';
 const BASE_PATH='https://healthcareoptical-dev.vercel.app/'
-const HOME_URL = './pages/home.html'
+//const BASE_PATH ='http://localhost:3400/';
+const HOME_URL = './pages/home.html';
 const ABOUT_US_URL = './pages/aboutUs.html';
 const CONTACT_US_URL = './pages/contactUs.html';
 const PRODUCT_URL = './pages/productlist.html';
 const LOGIN_URL = './pages/login.html';
+const SYSTEM_URL = './pages/system.html';
+
+function showSpinner() {
+    document.getElementById('loading-backdrop').style.display = 'flex';
+}
+
+function hideSpinner() {
+    document.getElementById('loading-backdrop').style.display = 'none';
+}
 
 async function getContent() {
     try {
@@ -22,7 +32,7 @@ async function getContent() {
 
         for (let i = 0; i < allElements.length; i++) {
             const value = data[allElements[i].getAttribute('property-name')];
-            allElements[i].innerText = value;
+            allElements[i].innerHTML = value;
         }
 
     } catch (error) {
@@ -59,6 +69,15 @@ async function switchPage(page, firstLoad=false ) {
         if (page === PRODUCT_URL) {
             getMenuData();
         }
+        if (page === SYSTEM_URL) {
+            clickSystemTab('product');
+        }
+        if (page === LOGIN_URL) {
+            initLogin();
+        }
+        if (page === CONTACT_US_URL) {
+            initMessageUs();
+        }
         getContent();
     } catch (error) {
         console.error('Error loading content:', error);
@@ -76,12 +95,86 @@ function generateValueFromApi(){
 }
 
 function switchLang(){
+    const checkbox = document.getElementById('language-toggle');
+
     if (localStorage.getItem('htclang')) {
         localStorage.removeItem('htclang');
-    } else {
+    }
+
+    if (checkbox.checked) {
         localStorage.setItem('htclang','zh');
-    }   
+    }
     getContent();
     generateValueFromApi();
 }
 
+function generateDialog(tab = undefined){
+    const modalDiv = document.createElement('div');
+    modalDiv.classList.add('modal','fade', 'backdrop');
+    modalDiv.id="resultModal";
+    modalDiv.tabIndex = "-1";
+    modalDiv.role="dialog";
+    modalDiv.ariaLabelledby="resultModalLabel";
+
+    const modalDialogDiv = document.createElement('div');
+    modalDialogDiv.classList.add('modal-dialog', 'centered-modal');
+    modalDialogDiv.role = 'document';
+
+    const modalContentDiv = document.createElement('div');
+    modalContentDiv.classList.add('modal-content');
+
+    const modalBodyDiv = document.createElement('div');
+    modalBodyDiv.classList.add('modal-body');
+    modalBodyDiv.id="resultContentModal";
+    modalBodyDiv.setAttribute('property-name', 'message');
+    modalContentDiv.appendChild(modalBodyDiv);
+
+    const modalFooterDiv = document.createElement('div');
+    modalFooterDiv.classList.add('modal-footer');
+
+    const modalCancelBtn = document.createElement('button');
+    modalCancelBtn.classList.add('btn','btn-default');
+    modalCancelBtn.setAttribute('property-name', 'confirm');
+    modalCancelBtn.setAttribute('data-dismiss','modal');
+    modalFooterDiv.appendChild(modalCancelBtn);
+
+    modalContentDiv.appendChild(modalFooterDiv);
+    modalDialogDiv.appendChild(modalContentDiv);
+    modalDiv.appendChild(modalDialogDiv);
+
+    $(modalDiv).modal({
+         backdrop: 'static', 
+         show: false
+    });
+
+    if (tab){
+        modalDiv.addEventListener('click', function (event) {
+            if (event.target.matches('[data-dismiss="modal"]')) {
+                const resultContentModal = document.getElementById('resultContentModal');
+                const displayedMessage = resultContentModal.getAttribute('property-name');
+                if (displayedMessage ==='success') {
+                    clickSystemTab(tab)
+                }
+            }
+        });
+    }   
+
+    return modalDiv;
+}
+
+function generateSystemMaintenance(){
+    const menu = document.getElementById('menubar');
+    const login = menu.querySelector('li:nth-child(5)');
+    const aElement = document.querySelector('li a[property-name="login"]');
+    aElement.setAttribute('property-name', 'logout');
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href="#";
+    a.setAttribute('property-name', 'system');
+    a.addEventListener('click', function() {
+        switchPage(SYSTEM_URL);
+    });
+    li.appendChild(a);
+    menu.insertBefore(li, login);
+    switchPage(SYSTEM_URL, true);
+}

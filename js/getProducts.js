@@ -4,20 +4,21 @@ let menus;
 let allZh;
 let allEn;
 
-async function getMenuData() {
+async function getMenuData(isFirstTime =true) {
+    const dialogContainer = document.getElementById('dialogId');
+    const dialog = generateDialog();
+    dialogContainer.innerHTML ='';
+    dialogContainer.appendChild(dialog);
+    const confirmModal = document.getElementById('resultContentModal');
+    $('#confirmModal').modal('hide');
     try {
+        showSpinner();
         const response = await fetch(BASE_PATH +'menu', {
               method: "GET",
               redirect: "follow"
         }); 
         if (!response.ok) {
-            const errorDetails = await response.json().catch(() => ({
-                message: 'Error when get resources',
-            }));
-            throw { 
-                status: response.status, 
-                message: errorDetails.message || response.statusText 
-            };
+            throw new Error('Error');
         }
         const data = await response.json();
         allZh = await getContentByKey('all', ZH_URL);
@@ -25,12 +26,16 @@ async function getMenuData() {
         products = await getProductData();
         menus = data.menu;
         generateCategoryTab(menus);
+        hideSpinner();
     } catch (error) {
-        const errorMessage = error.message || 'Unknown error occurred';
-        return {
-            status: error.status || 500,
-            message: errorMessage,
-        };
+        if (isFirstTime) {
+            getMenuData(false);
+        } else {
+            confirmModal.setAttribute('property-name', 'error');
+            getContent();
+            hideSpinner();    
+            $('#resultModal').modal('show');
+        }
     }
 }
 
@@ -112,7 +117,7 @@ function clickBrand(brandTab){
 function filterProductsByCriteria(catId, brandId) {
     if (brandId) {
         filterProducts = products.filter(product => product.category === catId)
-                                     .filter(product => product.brand === brandId);
+                                 .filter(product => product.brand === brandId);
     } else {
         filterProducts = products.filter(product => product.category === catId);
     }
@@ -151,33 +156,37 @@ function generateProductsView(sortOption = '1'){
         const productsTab = document.getElementById('myTabContent');
         productsTab.innerHTML = '';
         
-        const dropDownDiv = document.createElement('div');
-        const optionSelect = document.createElement('select');
-        const option1 = document.createElement('option');
-        const option2 = document.createElement('option');
-        const option3 = document.createElement('option');
-        const option4 = document.createElement('option');
-        option1.value = '1';
-        option1.selected = (sortOption === option1.value); 
-        option1.setAttribute('property-name', 'sortDateAsc');
-        option2.value = '2';
-        option2.selected = (sortOption === option2.value); 
-        option2.setAttribute('property-name', 'sortDateDesc');
-        option3.value = '3';
-        option3.selected = (sortOption === option3.value); 
-        option3.setAttribute('property-name', 'sortPriceAsc');
-        option4.value = '4';
-        option4.selected = (sortOption === option4.value); 
-        option4.setAttribute('property-name', 'sortPriceDesc');
-        optionSelect.classList.add('selectSortBy');
-        optionSelect.setAttribute('onchange','selectSortOption(this.value)')
-        optionSelect.appendChild(option1);
-        optionSelect.appendChild(option2);
-        optionSelect.appendChild(option3);
-        optionSelect.appendChild(option4);
-        dropDownDiv.classList.add('topRightDropdown');
-        dropDownDiv.appendChild(optionSelect);
-        productsTab.appendChild(dropDownDiv);
+        const selectOpt = document.getElementById('productSort');
+
+        if (!selectOpt){
+            const optionSelect = document.createElement('select');
+            optionSelect.classList.add('text-left');
+            optionSelect.id = 'productSort';
+            const option1 = document.createElement('option');
+            const option2 = document.createElement('option');
+            const option3 = document.createElement('option');
+            const option4 = document.createElement('option');
+            option1.value = '1';
+            option1.selected = (sortOption === option1.value); 
+            option1.setAttribute('property-name', 'sortDateAsc');
+            option2.value = '2';
+            option2.selected = (sortOption === option2.value); 
+            option2.setAttribute('property-name', 'sortDateDesc');
+            option3.value = '3';
+            option3.selected = (sortOption === option3.value); 
+            option3.setAttribute('property-name', 'sortPriceAsc');
+            option4.value = '4';
+            option4.selected = (sortOption === option4.value); 
+            option4.setAttribute('property-name', 'sortPriceDesc');
+            optionSelect.setAttribute('onchange','selectSortOption(this.value)')
+            optionSelect.appendChild(option1);
+            optionSelect.appendChild(option2);
+            optionSelect.appendChild(option3);
+            optionSelect.appendChild(option4);
+
+            const catTab = document.getElementById('catTab');
+            catTab.appendChild(optionSelect);
+        }
 
         const outerDiv = document.createElement('div');
         const containerDiv = document.createElement('div');
@@ -284,10 +293,10 @@ function generateProductDetail(productTab) {
     const imgDiv =  document.createElement('div');
     const img =  document.createElement('img');
     imgDiv.classList.add('per_pic');
-    imgContainerDiv.classList.add('col-md-4');
-    imgContainerDiv.classList.add('col-sm-4');
-    imgContainerDiv.classList.add('col-xs-12');
+    imgContainerDiv.classList.add('col-md-4', 'col-sm-4' , 'col-xs-12');
     img.src = product.imageUrl;
+    img.classList.add('h-300');
+    img.style.objectFit = 'cover';
     imgDiv.appendChild(img);
     imgContainerDiv.appendChild(imgDiv);
     rowDiv.appendChild(imgContainerDiv);
@@ -366,28 +375,27 @@ function generateProductDetail(productTab) {
 
 
 async function getProductData() {
+    const dialogContainer = document.getElementById('dialogId');
+    const dialog = generateDialog();
+    dialogContainer.innerHTML ='';
+    dialogContainer.appendChild(dialog);
+    const confirmModal = document.getElementById('resultContentModal');
+    $('#confirmModal').modal('hide');
     try {
         const response = await fetch(BASE_PATH +'product', { 
             method: "GET",
             redirect: "follow"
         }); 
         if (!response.ok) {
-            const errorDetails = await response.json().catch(() => ({
-                message: 'Error when get resources',
-            }));
-            throw { 
-                status: response.status, 
-                message: errorDetails.message || response.statusText 
-            };
+            throw new Error('Error');
         }
         const data = await response.json();
         return data.products;
     } catch (error) {
-        const errorMessage = error.message || 'Unknown error occurred';
-        return {
-            status: error.status || 500,
-            message: errorMessage,
-        };
+        confirmModal.setAttribute('property-name', 'error');
+        getContent();
+        hideSpinner();    
+        $('#resultModal').modal('show');
     }
 }
 
@@ -395,4 +403,5 @@ function toggleSortOptions() {
     const sortBy = document.querySelector('.sort-by');
     sortBy.classList.toggle('open');
 }
+
 

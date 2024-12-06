@@ -1,34 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
 </head>
 <body>
+    <!--
     <table width="100%" height="100%">
         <tr>
-            <td align="center" valign="middle">
-                <div id="login-form" style="width: 400px; border: 1px solid #ccc; padding: 30px; box-sizing: border-box;">
-                    <h2 class="text-center">Login</h2>
-                    <form id="loginForm">
-                        <div>
-                            <label for="username">Username:</label><br>
-                            <input type="text" id="username" name="username" required placeholder="Enter your username" class="form-control">
-                        </div>
-                        <br>
-                        <div>
-                            <label for="password">Password:</label><br>
-                            <input type="password" id="password" name="password" required placeholder="Enter your password" class="form-control">
-                        </div>
-                        <br>
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                        </div>
-                        <br>
-                    </form>
-                    <p id="loginMessage" style="color: red; text-align: center;"></p>
+            <td align="center" valign="middle">-->
+    <div id="loginFormDiv" class="col-md-12 login">
+        <h2 class="text-center" property-name="login"></h2>
+        <form id="loginForm">
+            <div class="form-group row mb-3">
+                <label for="username" class="col-sm-12 col-form-label text-left" property-name="userId"></label>
+                <div class="col-sm-12">
+                    <input type="text" id="username" name="username" required class="form-control" required>
+                </div>
+            </div>
+                        <!--<br>-->
+            <div class="form-group row mb-3">
+                <label for="password" class="col-sm-12 col-form-label text-left" property-name="password"></label>
+                <div class="col-sm-12">
+                    <input type="password" id="password" name="password" required class="form-control" required>
+                </div>
+            </div>
+                        <!--<br>-->
+            <div>
+                <button type="submit" class="btn btn-primary btn-block" property-name="login"></button>
+            </div>
+                        <!--<br>-->
+        </form>
+    </div>
+                <!--<p id="loginMessage" style="color: red; text-align: center;"></p>
                     <div style="text-align: center; margin-top: 10px;">
                         <p>Don't have an account? <a href="#" data-toggle="modal" data-target="#registerModal">Sign up</a></p>
                     </div>
@@ -72,6 +76,6 @@
     </div>
 
     
-    <script src="../js/login.js"></script>
+    <script src="../js/login.js"></script>-->
 </body>
 </html>

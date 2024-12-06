@@ -1,3 +1,66 @@
+function initLogin(){
+    logout();
+    setTimeout(() => {
+        const loginForm = document.getElementById('loginForm');
+        const loginFormDiv = document.getElementById('loginFormDiv');
+        const resultModal = generateDialog();
+        loginFormDiv.appendChild(resultModal);
+        loginForm.addEventListener('submit', (event) => 
+        {
+            login(event);
+        });
+    }, 1);
+}
+
+async function login(event){
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const confirmModal = document.getElementById('resultContentModal');
+    try {
+        showSpinner();
+        const response = await fetch(BASE_PATH + 'auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: username, password: password })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            sessionStorage.setItem('role', data.roles[0]);
+            generateSystemMaintenance();            
+        } else {
+           throw new Error(response.status);
+        }   
+        getContent();
+        hideSpinner();
+    } catch (error) {
+        console.log('in catch ',error.message);
+        if (error.message === '500'){
+            confirmModal.setAttribute('property-name', 'incorrectPassword');
+        } else {
+            confirmModal.setAttribute('property-name', 'error');
+        }
+        getContent();
+        hideSpinner();    
+        $('#resultModal').modal('show');
+    }
+}
+
+function logout(){
+    const role = sessionStorage.getItem('role');
+    if (role){
+        sessionStorage.removeItem('role');
+        const aElement = document.querySelector('li a[property-name="logout"]');
+        aElement.setAttribute('property-name', 'login');
+        const systemElement = document.querySelector('li a[property-name="system"]').parentElement;
+        systemElement.remove();
+    }
+}
+
+/*
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     console.log('Login form submitted'); // Log para verificar o evento
@@ -7,7 +70,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     console.log('Username:', username); // Log para verificar o valor do username
 
     try {
-        const response = await fetch('https://healthcareoptical-dev.vercel.app/auth/login', {
+        const response = await fetch(BASE_PATH + 'auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +95,7 @@ document.getElementById('loginForm').addEventListener('submit', async function (
     }
 });
 
-
+/*
 document.getElementById('registerForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -60,3 +123,4 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         document.getElementById('registerMessage').innerText = 'An error occurred. Please try again later.';
     }
 });
+*/
