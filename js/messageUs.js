@@ -1,3 +1,7 @@
+/**
+ * Initializes the "Message Us" form by attaching a submit event listener
+ * to handle message submissions.
+ */
 function initMessageUs(){
     setTimeout(() => {
         const messageForm = document.getElementById('messageForm');
@@ -8,6 +12,11 @@ function initMessageUs(){
     },1);
 }   
 
+/**
+ * Handles the submission of the "Message Us" form.
+ * Sends the message details to the server via a POST request.
+ * @param {Event} event - The form submit event.
+ */
 async function submitMessage(event){
     event.preventDefault();
     const confirmModal = document.getElementById('resultContentModal');

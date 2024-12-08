@@ -1,6 +1,9 @@
 // JavaScript Document
 $(document).ready(function(){
-// Menu js for Position fixed
+    /**
+     * Adds a 'fixed' class with animation to the inner header when the page is scrolled
+     * beyond its original height. Removes the class when scrolled back to the top.
+     */
 	var	headerHeight = $("#innerHeader").outerHeight();
 	$(window).scroll(function(){
 		var window_top = $(window).scrollTop() + 1;
@@ -11,7 +14,10 @@ $(document).ready(function(){
 		}
 	});
 
-// index Menu js for Position fixed
+    /**
+     * Adds a 'homefixed' class with animation to the home header when the page is scrolled
+     * beyond its original height. Removes the class when scrolled back to the top.
+     */
     var	homeHeaderHeight = $("#header").outerHeight();
     $(window).scroll(function(){
         var window_top = $(window).scrollTop() + 1;

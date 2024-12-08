@@ -1,3 +1,10 @@
+/**
+ * Dynamically loads content into the system tab based on the specified tab name.
+ * If the user is an admin, additional options are dynamically added to the navigation menu.
+ * Handles API calls to fetch necessary data for the selected tab and displays it appropriately.
+ * 
+ * @param {string} tab - The name of the tab to be loaded (e.g., "user", "product").
+ */
 async function clickSystemTab(tab) {
     const role = sessionStorage.getItem('role');
     const userLi = document.querySelector('li a[property-name="users"]'); 
@@ -77,6 +84,12 @@ async function clickSystemTab(tab) {
     }
 }
 
+/**
+ * Generates the system content tab with dropdown menu or product-specific content.
+ * 
+ * @param {Object} data - The data containing categories, brands, or products.
+ * @param {string} tab - The current tab type ('product', 'category', 'brand', etc.).
+ */
 function generateSystemContentTab(data, tab) {
     const newContainer = document.getElementById('addNewContainer');
     newContainer.innerHTML = '';
@@ -106,12 +119,26 @@ function generateSystemContentTab(data, tab) {
     }
 }
 
+/**
+ * Creates a new entry based on the provided tab and data.
+ * 
+ * @param {string} tab - The current tab type ('product', 'category', 'brand', etc.).
+ * @param {Array} categoriesData - The data for categories.
+ * @param {Array} brandsData - The data for brands.
+ */
 function createNew(tab, categoriesData, brandsData) {
     generateElementDetail(tab, {}, categoriesData, brandsData, true);
     getContent();
     generateValueFromApi();
 }
 
+/**
+ * Modifies the given data based on the tab type (product, category, brand, etc.).
+ * 
+ * @param {Object} data - The data containing categories, brands, or products.
+ * @param {string} tab - The current tab type.
+ * @returns {Object} The modified data.
+ */
 function modifyData(data, tab) {
     let modifiedData;
     switch(tab) {
@@ -150,6 +177,13 @@ function modifyData(data, tab) {
     return modifiedData;
 }
 
+/**
+ * Generates a dropdown menu based on the provided data and tab type.
+ * 
+ * @param {Object} data - The data containing categories, brands, or products.
+ * @param {string} tab - The current tab type.
+ * @returns {HTMLElement} The generated dropdown menu.
+ */
 function generateDropDown(data, tab) {
     const div = document.createElement('div');
     div.classList.add('dropdown');
@@ -190,6 +224,13 @@ function generateDropDown(data, tab) {
     return div;
 }
 
+/**
+ * Handles the selection of an element from the dropdown.
+ * 
+ * @param {Event} event - The click event.
+ * @param {Object} categoriesData - The data for categories.
+ * @param {Object} brandsData - The data for brands.
+ */
 function selectElement(event, catgoriesData, brandsData) {
     event.preventDefault();
     const selectedText = this.textContent;
@@ -202,6 +243,15 @@ function selectElement(event, catgoriesData, brandsData) {
     generateValueFromApi();
 }
 
+/**
+ * Generates the detailed content for the selected element based on the tab type.
+ * 
+ * @param {string} tab - The current tab type.
+ * @param {Object} data - The data for the element.
+ * @param {Array} categoriesData - The data for categories.
+ * @param {Array} brandsData - The data for brands.
+ * @param {boolean} isNew - Whether the element is new or being edited.
+ */
 function generateElementDetail(tab, data, categoriesData, brandsData, isNew = false) {
     const contentContainer = document.getElementById('contentContainer');
     const confirmModal = generateConfirmDeleteModal(tab);
@@ -231,6 +281,15 @@ function generateElementDetail(tab, data, categoriesData, brandsData, isNew = fa
     }
 }
 
+/**
+ * Generates the product detail form for the selected product.
+ * 
+ * @param {Object} product - The product data.
+ * @param {Array} categoriesData - The data for categories.
+ * @param {Array} brandsData - The data for brands.
+ * @param {boolean} isNew - Whether the product is new or being edited.
+ * @returns {HTMLElement} The generated product detail form.
+ */
 function generateProductDetail(product, categoriesData, brandsData, isNew) {
 
     const productForm = document.createElement('form');
@@ -522,6 +581,14 @@ function generateProductDetail(product, categoriesData, brandsData, isNew) {
     return productForm;
 }
 
+/**
+ * Preview an image when selected by the user.
+ * 
+ * This function reads the selected image file using FileReader
+ * and displays it in an <img> element with the id 'displayImage'.
+ * 
+ * @param {Event} event - The change event triggered by the file input.
+ */
 function previewImage(event) {
     var reader = new FileReader();
     reader.onload = function() {
@@ -531,6 +598,17 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
 }
 
+/**
+ * Generates a form to edit or create a category.
+ * 
+ * This function creates a form with fields for category names in both
+ * English and Chinese, a hidden field for the category ID, and buttons
+ * for saving and deleting the category.
+ * 
+ * @param {Object} category - The category object containing existing values.
+ * @param {boolean} isNew - Flag indicating if the category is new or being edited.
+ * @returns {HTMLFormElement} The generated form element for category details.
+ */
 function generateCategoryDetail(category, isNew){
 
     const categoryForm = document.createElement('form');
@@ -624,7 +702,17 @@ function generateCategoryDetail(category, isNew){
     return categoryForm;
 }
 
-
+/**
+ * Generates a form to edit or create a brand.
+ * 
+ * This function creates a form with fields for brand names in both
+ * English and Chinese, a hidden field for the brand ID, and buttons
+ * for saving and deleting the brand.
+ * 
+ * @param {Object} brand - The brand object containing existing values.
+ * @param {boolean} isNew - Flag indicating if the brand is new or being edited.
+ * @returns {HTMLFormElement} The generated form element for brand details.
+ */
 function generateBrandDetail(brand, isNew){
 
     const brandForm = document.createElement('form');
@@ -720,6 +808,16 @@ function generateBrandDetail(brand, isNew){
     return brandForm;
 }
 
+/**
+ * Generates a form to edit or create a user.
+ * 
+ * This function creates a form with fields for user ID, password, confirm password,
+ * and buttons for saving and deleting the user.
+ * 
+ * @param {Object} user - The user object containing existing values.
+ * @param {boolean} isNew - Flag indicating if the user is new or being edited.
+ * @returns {HTMLFormElement} The generated form element for user details.
+ */
 function generateUser(user, isNew) { 
 
     const userForm = document.createElement('form');
@@ -841,6 +939,14 @@ function generateUser(user, isNew) {
     return userForm;
 }
 
+/**
+ * Modifies the product details by sending the data to the server.
+ * Depending on the `isNew` flag, it either creates a new product or updates an existing one.
+ * Displays success or error modal after the operation.
+ * 
+ * @param {Event} event - The event triggered by the form submission.
+ * @param {boolean} isNew - Flag indicating whether the product is new (true) or an existing one (false).
+ */
 async function modifyProduct(event, isNew) {
     event.preventDefault();
     let method = 'POST';
@@ -892,6 +998,14 @@ async function modifyProduct(event, isNew) {
     } 
 }
 
+/**
+ * Modifies the category details by sending the data to the server.
+ * Depending on the `isNew` flag, it either creates a new category or updates an existing one.
+ * Displays success or error modal after the operation.
+ * 
+ * @param {Event} event - The event triggered by the form submission.
+ * @param {boolean} isNew - Flag indicating whether the category is new (true) or an existing one (false).
+ */
 async function modifyCategory(event, isNew){
     event.preventDefault();
     let method = 'POST';
@@ -938,6 +1052,14 @@ async function modifyCategory(event, isNew){
     } 
 }
 
+/**
+ * Modifies the brand details by sending the data to the server.
+ * Depending on the `isNew` flag, it either creates a new brand or updates an existing one.
+ * Displays success or error modal after the operation.
+ * 
+ * @param {Event} event - The event triggered by the form submission.
+ * @param {boolean} isNew - Flag indicating whether the brand is new (true) or an existing one (false).
+ */
 async function modifyBrand(event, isNew){
     event.preventDefault();
     let method = 'POST';
@@ -984,6 +1106,14 @@ async function modifyBrand(event, isNew){
     } 
 }
 
+/**
+ * Modifies the user details (e.g., password) by sending the data to the server.
+ * Displays success or error modal after the operation. 
+ * If passwords do not match, an error message is displayed.
+ * 
+ * @param {Event} event - The event triggered by the form submission.
+ * @param {boolean} isNew - Flag indicating whether the user is new (true) or an existing one (false).
+ */
 async function modifyUser(event, isNew){
     event.preventDefault();
     let method = 'POST';
@@ -1032,6 +1162,13 @@ async function modifyUser(event, isNew){
     }
 }
 
+/**
+ * Confirms the deletion of an entity (e.g., product, category, brand, user) based on the provided tab.
+ * Sends a DELETE request to the server and displays a success or error modal.
+ * 
+ * @param {Event} event - The event triggered by the form submission.
+ * @param {string} tab - The type of entity to delete (e.g., 'product', 'category', 'brand', 'user').
+ */
 async function confirmDelete(event, tab) {
     event.preventDefault();
     const confirmModal = document.getElementById('resultContentModal');
@@ -1084,6 +1221,12 @@ async function confirmDelete(event, tab) {
 
 }
 
+/**
+ * Generates a modal for confirming the deletion of an entity.
+ * 
+ * @param {string} tab - The type of entity to delete (e.g., 'product', 'category', 'brand', 'user').
+ * @returns {HTMLElement} The modal element for confirming deletion.
+ */
 function generateConfirmDeleteModal(tab){
     const modalDiv = document.createElement('div');
     modalDiv.classList.add('modal','fade', 'backdrop');
@@ -1149,56 +1292,4 @@ function generateConfirmDeleteModal(tab){
     });
 
     return modalDiv;
-}  
-
-// function generateResultModal(tab){
-//     const modalDiv = document.createElement('div');
-//     modalDiv.classList.add('modal','fade', 'backdrop');
-//     modalDiv.id="resultModal";
-//     modalDiv.tabIndex = "-1";
-//     modalDiv.role="dialog";
-//     modalDiv.ariaLabelledby="resultModalLabel";
-
-//     const modalDialogDiv = document.createElement('div');
-//     modalDialogDiv.classList.add('modal-dialog', 'centered-modal');
-//     modalDialogDiv.role = 'document';
-
-//     const modalContentDiv = document.createElement('div');
-//     modalContentDiv.classList.add('modal-content');
-
-//     const modalBodyDiv = document.createElement('div');
-//     modalBodyDiv.classList.add('modal-body');
-//     modalBodyDiv.id="resultContentModal";
-//     modalBodyDiv.setAttribute('property-name', 'message');
-//     modalContentDiv.appendChild(modalBodyDiv);
-
-//     const modalFooterDiv = document.createElement('div');
-//     modalFooterDiv.classList.add('modal-footer');
-
-//     const modalCancelBtn = document.createElement('button');
-//     modalCancelBtn.classList.add('btn','btn-default');
-//     modalCancelBtn.setAttribute('property-name', 'confirm');
-//     modalCancelBtn.setAttribute('data-dismiss','modal');
-//     modalFooterDiv.appendChild(modalCancelBtn);
-
-//     modalContentDiv.appendChild(modalFooterDiv);
-//     modalDialogDiv.appendChild(modalContentDiv);
-//     modalDiv.appendChild(modalDialogDiv);
-
-//     $(modalDiv).modal({
-//          backdrop: 'static', 
-//          show: false
-//     });
-
-//     modalDiv.addEventListener('click', function (event) {
-//         if (event.target.matches('[data-dismiss="modal"]')) {
-//             const resultContentModal = document.getElementById('resultContentModal');
-//             const displayedMessage = resultContentModal.getAttribute('property-name');
-//             if (displayedMessage ==='success') {
-//                 clickSystemTab(tab)
-//             }
-//         }
-//     });
-
-//     return modalDiv;
-// }
+} 

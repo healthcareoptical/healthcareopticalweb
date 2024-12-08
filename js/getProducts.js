@@ -1,9 +1,16 @@
+// Declare global variables
 let products;
 let filterProducts;
 let menus;
 let allZh;
 let allEn;
 
+/**
+ * Fetches the menu data from the API and handles errors.
+ * It populates the dialog container and updates the menu tab with categories and brands.
+ * 
+ * @param {boolean} [isFirstTime=true] - Flag to indicate whether it's the first time loading the menu data.
+ */
 async function getMenuData(isFirstTime =true) {
     const dialogContainer = document.getElementById('dialogId');
     const dialog = generateDialog();
@@ -39,6 +46,11 @@ async function getMenuData(isFirstTime =true) {
     }
 }
 
+/**
+ * Generates and displays the category tabs based on the menu data.
+ * 
+ * @param {Array} menus - The list of menu categories.
+ */
 function generateCategoryTab(menus){
     const categoryTab = document.getElementById('myTab');
     categoryTab.innerHTML = '';
@@ -68,12 +80,23 @@ function generateCategoryTab(menus){
     }
 }
 
+/**
+ * Handles category tab click and updates the brand tab.
+ * 
+ * @param {HTMLElement} catTab - The clicked category tab element.
+ */
 function clickCategory(catTab){
     const catId = catTab.getAttribute('cat-id');
     const brands = menus.find(menuItem => menuItem.category._id === catId).brands;
     generateBrandTab(brands, catId);
 }
 
+/**
+ * Generates and displays the brand tabs based on the selected category.
+ * 
+ * @param {Array} brands - The list of brands in the selected category.
+ * @param {string} catId - The ID of the selected category.
+ */
 function generateBrandTab(brands, catId){
     const brandTabList = document.getElementById('myTabMenuList');
     brandTabList.innerHTML = '';
@@ -107,6 +130,11 @@ function generateBrandTab(brands, catId){
     }
 }
 
+/**
+ * Handles brand tab click and filters products based on the selected category and brand.
+ * 
+ * @param {HTMLElement} brandTab - The clicked brand tab element.
+ */
 function clickBrand(brandTab){
     const catId = brandTab.getAttribute('cat-id');
     const brandId = brandTab.getAttribute('brand-id');
@@ -114,6 +142,12 @@ function clickBrand(brandTab){
 
 }
 
+/**
+ * Filters the products based on the selected category and brand.
+ * 
+ * @param {string} catId - The ID of the selected category.
+ * @param {string|null} brandId - The ID of the selected brand (optional).
+ */
 function filterProductsByCriteria(catId, brandId) {
     if (brandId) {
         filterProducts = products.filter(product => product.category === catId)
@@ -124,6 +158,11 @@ function filterProductsByCriteria(catId, brandId) {
     generateProductsView();
 }
 
+/**
+ * Generates the view of the filtered products and displays them.
+ * 
+ * @param {string} [sortOption='1'] - The selected sort option (1: Date Asc, 2: Date Desc, 3: Price Asc, 4: Price Desc).
+ */
 function generateProductsView(sortOption = '1'){
     if (filterProducts){
         switch (sortOption) {
@@ -254,7 +293,7 @@ function generateProductsView(sortOption = '1'){
             productDiv.appendChild(detailDiv);
             producthref.appendChild(productDiv);
             producthref.setAttribute('product', JSON.stringify(product));
-            producthref.setAttribute('onclick', "generateProductDetail(this)");
+            producthref.setAttribute('onclick', "generateProductDetailTab(this)");
 
             productContainerDiv.appendChild(producthref);
             rowDiv.appendChild(productContainerDiv);
@@ -267,16 +306,32 @@ function generateProductsView(sortOption = '1'){
     generateValueFromApi();
 }
 
+/**
+ * Extracts the date from the JSON string.
+ * 
+ * @param {string} jsonDt - The date in JSON format (e.g., "2024-12-08T12:34:56").
+ * @returns {string} - The extracted date in "YYYY-MM-DD" format.
+ */
 function getDateFromJsonString(jsonDt){
     const index = jsonDt.indexOf('T');
     return jsonDt.substring(0,index);
 }
 
+/**
+ * Handles sorting option change and refreshes the product view.
+ * 
+ * @param {string} selectOpt - The selected sort option.
+ */
 function selectSortOption(selectOpt){
     generateProductsView(selectOpt);
 }
 
-function generateProductDetail(productTab) {
+/**
+ * Generates the product detail page when a product is clicked.
+ * 
+ * @param {HTMLElement} productTab - The clicked product tab element.
+ */
+function generateProductDetailTab(productTab) {
     const product = JSON.parse(productTab.getAttribute('product'));
     const productsTab = document.getElementById('myTabContent');
     productsTab.innerHTML = '';
@@ -373,7 +428,13 @@ function generateProductDetail(productTab) {
     generateValueFromApi();
 }
 
-
+/**
+ * Fetches product data from the API, handles the response, and returns the list of products.
+ * It updates the UI by showing a loading dialog, and handles errors gracefully.
+ * 
+ * @returns {Promise<Array>} A promise that resolves to the list of products.
+ * @throws {Error} If the fetch request fails or returns an error.
+ */
 async function getProductData() {
     const dialogContainer = document.getElementById('dialogId');
     const dialog = generateDialog();
@@ -399,6 +460,10 @@ async function getProductData() {
     }
 }
 
+/**
+ * Toggles the visibility of the sorting options.
+ * This function is triggered by user interaction with the UI to display or hide the sort options.
+ */
 function toggleSortOptions() {
     const sortBy = document.querySelector('.sort-by');
     sortBy.classList.toggle('open');
