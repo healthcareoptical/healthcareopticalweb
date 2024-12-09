@@ -318,9 +318,6 @@ function generateProductDetail(product, categoriesData, brandsData, isNew) {
     fileInput.classList.add('form-control-file');
     fileInput.type = 'file';
     fileInput.accept="image/*";
-    if (isNew) {
-        fileInput.required = true;
-    }
     fileInput.addEventListener('change', (event) => previewImage(event));
     imgContainerDiv.appendChild(imgDiv);
     imgContainerDiv.appendChild(fileInput);

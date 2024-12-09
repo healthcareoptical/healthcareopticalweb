@@ -261,7 +261,7 @@ function generateProductsView(sortOption = '1'){
             productDiv.classList.add('team');
             detailDiv.classList.add('team_txt');
         
-            productImg.src = product.imageUrl;
+            productImg.src = product.imageUrl ||'./images/default_glass.avif';
 
             modelNoLabel.setAttribute('property-name', 'modelNo');
             modelNoSpan.innerText = product.modelNo;
