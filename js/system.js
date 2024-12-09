@@ -294,6 +294,7 @@ function generateProductDetail(product, categoriesData, brandsData, isNew) {
 
     const productForm = document.createElement('form');
     const productDetailDiv =document.createElement('div');
+    productForm.autocomplete= false;
     productDetailDiv.classList.add('container');
     const rowDiv = document.createElement('div');
     rowDiv.classList.add('row');
@@ -613,6 +614,7 @@ function generateCategoryDetail(category, isNew){
 
     const categoryForm = document.createElement('form');
     const containerDiv = document.createElement('div');
+    categoryForm.autocomplete= false;
     containerDiv.classList.add('col-md-12');
 
     //Category Name English:
@@ -717,6 +719,7 @@ function generateBrandDetail(brand, isNew){
 
     const brandForm = document.createElement('form');
     const containerDiv = document.createElement('div');
+    brandForm.autocomplete= false;
     containerDiv.classList.add('col-md-12');
 
     //Brand Name English:
