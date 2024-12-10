@@ -68,5 +68,6 @@
     "name":"Your Name : ",
     "email":"Your Email : ",
     "message":"Message : ",
-    "send": "Submit"
+    "send": "Submit",
+    "loginTitle": "Login Employee Only"
 }
