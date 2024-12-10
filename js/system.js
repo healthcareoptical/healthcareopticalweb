@@ -317,7 +317,7 @@ function generateProductDetail(product, categoriesData, brandsData, isNew) {
     fileInput.id = 'fileUpload';
     fileInput.classList.add('form-control-file');
     fileInput.type = 'file';
-    fileInput.accept=""image/png, image/jpg, image/jpeg"";
+    fileInput.accept='image/png, image/jpg, image/jpeg';
     if (isNew) {
         fileInput.required = true;
     }
