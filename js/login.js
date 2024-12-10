@@ -34,7 +34,7 @@ async function login(event){
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ userId: username.toLowerCase(), password: password.toLowerCase() })
+            body: JSON.stringify({ userId: username, password: password })
         });
 
         if (response.ok) {
