@@ -69,5 +69,6 @@
     "email":"您的電郵 : ",
     "message":"訊息 : ",
     "submit":"提交",
-    "send": "送出"
+    "send": "送出",
+    "loginTitle": "登入(員工專用)"
 }
