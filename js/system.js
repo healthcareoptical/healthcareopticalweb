@@ -950,7 +950,7 @@ function generateUser(user, isNew) {
  * @param {Event} event - The event triggered by the form submission.
  * @param {boolean} isNew - Flag indicating whether the product is new (true) or an existing one (false).
  */
-async function modifyProduct(event, isNew) {
+async function modifyProduct(event, isNew, isFirstTime =true) {
     event.preventDefault();
     let method = 'POST';
     const confirmModal = document.getElementById('resultContentModal');
@@ -994,10 +994,14 @@ async function modifyProduct(event, isNew) {
         getContent();
         $('#resultModal').modal('show');
     } catch (error) {
-        confirmModal.setAttribute('property-name', 'error');
-        getContent();
-        hideSpinner();
-        $('#resultModal').modal('show');
+        if (isFirstTime){
+            modifyProduct(event, isNew, false);
+        } else {
+            confirmModal.setAttribute('property-name', 'error');
+            getContent();
+            hideSpinner();
+            $('#resultModal').modal('show');
+        }
     } 
 }
 
